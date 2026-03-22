@@ -156,68 +156,6 @@
   }
 }
 
-/* =============================================
-   Leaflet Draw – High-Visibility Override
-   Makes the drawing guides bright red & visible
-   against dark satellite imagery.
-   ============================================= */
-
-/* The dashed guide lines while dragging */
-.leaflet-draw-guide-dash {
-  background-color: #ef4444 !important;
-  width: 3px !important;
-  height: 3px !important;
-  opacity: 1 !important;
-}
-
-/* The rectangle outline while drawing */
-.leaflet-draw-section .leaflet-interactive,
-.leaflet-pane .leaflet-interactive[stroke="true"] {
-  stroke: #ef4444 !important;
-  stroke-width: 3 !important;
-  stroke-opacity: 1 !important;
-  fill: rgba(239, 68, 68, 0.15) !important;
-}
-
-/* Draw toolbar icon container */
-.leaflet-draw-toolbar a {
-  background-color: #111827 !important;
-  border: 1px solid #374151 !important;
-}
-
-.leaflet-draw-toolbar a:hover {
-  background-color: #1f2937 !important;
-  border-color: #ef4444 !important;
-}
-
-/* Draw action bar labels */
-.leaflet-draw-actions a {
-  background-color: #111827 !important;
-  color: #ef4444 !important;
-  border: 1px solid #ef4444 !important;
-  font-family: 'Inter', sans-serif !important;
-  font-size: 11px !important;
-}
-
-/* Tooltip while drawing */
-.leaflet-draw-tooltip {
-  background-color: #111827 !important;
-  border: 1px solid #ef4444 !important;
-  color: #f9fafb !important;
-  font-family: 'Inter', sans-serif !important;
-  font-size: 11px !important;
-  padding: 4px 8px !important;
-  border-radius: 0 !important;
-}
-
-.leaflet-draw-tooltip-subtext {
-  color: #9ca3af !important;
-}
-
-.leaflet-draw-tooltip:before {
-  border-right-color: #ef4444 !important;
-}
-
 @keyframes pulse-glow {
 
   0%,
