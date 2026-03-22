@@ -54,9 +54,17 @@
     --ndvi-low: 38 92% 50%;
 
     /* Gradients */
-    --gradient-hero: radial-gradient(circle at center, hsl(222 47% 10%) 0%, hsl(222 47% 5%) 100%);
+    --gradient-hero: radial-gradient(
+      circle at center,
+      hsl(222 47% 10%) 0%,
+      hsl(222 47% 5%) 100%
+    );
     --gradient-card: linear-gradient(135deg, hsl(217 32% 15%), hsl(222 47% 8%));
-    --gradient-green: linear-gradient(135deg, hsl(188 86% 53%), hsl(188 86% 35%));
+    --gradient-green: linear-gradient(
+      135deg,
+      hsl(188 86% 53%),
+      hsl(188 86% 35%)
+    );
     --gradient-danger: linear-gradient(135deg, hsl(0 84% 60%), hsl(0 84% 40%));
 
     /* Shadows */
@@ -73,9 +81,10 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     /* Grid background effect */
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 40px 40px;
   }
@@ -84,7 +93,7 @@
   h2,
   h3,
   h4 {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     letter-spacing: -0.02em;
   }
 
@@ -92,13 +101,13 @@
   .font-mono,
   .data-value,
   code {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -152,12 +161,32 @@
 
   .leaflet-container {
     background: #000 !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: "Inter", sans-serif !important;
+  }
+
+  .leaflet-draw-tooltip {
+    background: rgba(0, 0, 0, 0.92) !important;
+    border: 1px solid rgba(249, 115, 22, 0.8) !important;
+    color: #fdba74 !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 10px !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .leaflet-overlay-pane path.leaflet-interactive {
+    stroke-opacity: 1 !important;
+  }
+
+  .leaflet-draw-actions a {
+    background: rgba(0, 0, 0, 0.9) !important;
+    color: #e5e7eb !important;
+    border-color: rgba(249, 115, 22, 0.45) !important;
+    font-family: "JetBrains Mono", monospace !important;
   }
 }
 
 @keyframes pulse-glow {
-
   0%,
   100% {
     box-shadow: 0 0 5px hsl(var(--primary) / 0.3);
