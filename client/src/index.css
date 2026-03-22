@@ -166,23 +166,55 @@
 
   .leaflet-draw-tooltip {
     background: rgba(0, 0, 0, 0.92) !important;
-    border: 1px solid rgba(249, 115, 22, 0.8) !important;
-    color: #fdba74 !important;
+    border: 1px solid rgba(252, 124, 12, 0.9) !important;
+    color: #fed7aa !important;
     font-family: "JetBrains Mono", monospace !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    padding: 6px 10px !important;
   }
 
   .leaflet-overlay-pane path.leaflet-interactive {
     stroke-opacity: 1 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
   }
 
   .leaflet-draw-actions a {
     background: rgba(0, 0, 0, 0.9) !important;
     color: #e5e7eb !important;
-    border-color: rgba(249, 115, 22, 0.45) !important;
+    border-color: rgba(252, 124, 12, 0.6) !important;
+    border: 1px solid rgba(252, 124, 12, 0.6) !important;
     font-family: "JetBrains Mono", monospace !important;
+    font-weight: bold;
+  }
+
+  .leaflet-draw-actions a:hover {
+    background: rgba(252, 124, 12, 0.2) !important;
+    border-color: rgba(252, 124, 12, 0.9) !important;
+  }
+
+  /* Draw toolbar styling */
+  .leaflet-draw-toolbar {
+    background: rgba(0, 0, 0, 0.85) !important;
+    border: 1px solid rgba(252, 124, 12, 0.5) !important;
+    box-shadow: 0 0 15px rgba(252, 124, 12, 0.15) !important;
+  }
+
+  .leaflet-draw-toolbar a {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-right: 1px solid rgba(252, 124, 12, 0.3) !important;
+  }
+
+  .leaflet-draw-toolbar a:hover {
+    background: rgba(252, 124, 12, 0.25) !important;
+  }
+
+  /* Cursor styling when drawing */
+  .leaflet-drawing-enabled .leaflet-container,
+  .leaflet-draw-toolbar + .leaflet-container {
+    cursor: crosshair !important;
   }
 }
 

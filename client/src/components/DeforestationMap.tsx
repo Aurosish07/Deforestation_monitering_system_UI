@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
@@ -28,13 +28,16 @@ export function DeforestationMap({
   const geojsonLayerRef = useRef<L.GeoJSON | null>(null);
   const drawnItemsRef = useRef<L.FeatureGroup | null>(null);
   const rectangleDrawerRef = useRef<L.Draw.Rectangle | null>(null);
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
 
   const drawShapeOptions: L.PathOptions = {
-    color: "#f97316",
-    weight: 3,
-    fillColor: "#f97316",
-    fillOpacity: 0.2,
-    dashArray: "8 6",
+    color: "#fc7c0c",
+    weight: 4,
+    fillColor: "#fc7c0c",
+    fillOpacity: 0.15,
+    dashArray: "10 5",
+    lineCap: "round",
+    lineJoin: "round",
   };
 
   // Initialise map once
@@ -82,10 +85,8 @@ export function DeforestationMap({
     });
     rectangleDrawerRef.current = rectangleDrawer;
 
-    // Auto-enable rectangle mode so users can drag-to-select immediately.
-    setTimeout(() => {
-      rectangleDrawer.enable();
-    }, 200);
+    // DO NOT auto-enable - let user click button first
+    // User must explicitly click "ACTIVATE SELECTION MODE" button to enable drawing
 
     // 3. Handle draw events
     map.on(L.Draw.Event.CREATED, (e: any) => {
@@ -117,6 +118,11 @@ export function DeforestationMap({
       if (onBboxDrawn) {
         onBboxDrawn([w, s, e_lon, n]);
       }
+
+      // Auto-close selection mode after drawing
+      setTimeout(() => {
+        setIsSelectionMode(false);
+      }, 500);
     });
 
     map.on(L.Draw.Event.DELETED, () => {
@@ -137,6 +143,55 @@ export function DeforestationMap({
       mapRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Handle selection mode toggle
+  useEffect(() => {
+    const map = mapRef.current;
+    const drawer = rectangleDrawerRef.current;
+    if (!map || !drawer) return;
+
+    if (isSelectionMode) {
+      // ACTIVATE selection mode
+      drawer.enable();
+      // Zoom to see larger area (zoom level 3)
+      setTimeout(() => {
+        map.setZoom(3, { animate: true });
+      }, 100);
+    } else {
+      // DEACTIVATE selection mode
+      drawer.disable();
+    }
+  }, [isSelectionMode]);
+
+  // Handle rectangle drawn - zoom to fit it
+  useEffect(() => {
+    const map = mapRef.current;
+    const drawnItems = drawnItemsRef.current;
+
+    if (!map || !drawnItems) return;
+
+    const handleDrawn = () => {
+      const layers = drawnItems.getLayers();
+      if (layers.length > 0 && layers[0] instanceof L.Rectangle) {
+        const bounds = layers[0].getBounds();
+        // Zoom to the drawn rectangle with padding
+        map.fitBounds(bounds, {
+          padding: [80, 80],
+          maxZoom: 12,
+          animate: true,
+        });
+      }
+    };
+
+    // Listen to draw events
+    map.on(L.Draw.Event.CREATED, handleDrawn);
+    map.on(L.Draw.Event.EDITED, handleDrawn);
+
+    return () => {
+      map.off(L.Draw.Event.CREATED, handleDrawn);
+      map.off(L.Draw.Event.EDITED, handleDrawn);
+    };
   }, []);
 
   // Update view when center/zoom changes
@@ -218,11 +273,24 @@ export function DeforestationMap({
     <div className="relative w-full h-full overflow-hidden border border-border/50">
       <button
         type="button"
-        onClick={() => rectangleDrawerRef.current?.enable()}
-        className="absolute top-3 left-3 z-[450] bg-black/85 border border-orange-400/60 text-orange-300 hover:bg-orange-400/20 hover:text-orange-200 px-3 py-1 font-mono text-[10px] tracking-widest shadow-glow"
+        onClick={() => setIsSelectionMode(!isSelectionMode)}
+        className={`absolute top-3 left-3 z-[450] px-4 py-2 font-mono text-[11px] tracking-widest shadow-glow border transition-all duration-200 font-bold ${
+          isSelectionMode
+            ? "bg-red-900/85 border-red-500/80 text-red-200 hover:bg-red-800 hover:text-red-100"
+            : "bg-black/85 border-orange-500/70 text-orange-300 hover:bg-orange-500/20 hover:text-orange-100 shadow-[0_0_12px_rgba(252,124,12,0.3)]"
+        }`}
       >
-        DRAG TO SELECT AREA
+        {isSelectionMode ? "✕ CANCEL SELECTION" : "▢ DRAW SELECTION BOX"}
       </button>
+
+      {isSelectionMode && (
+        <div className="absolute top-14 left-3 z-[450] bg-red-950/95 border border-red-600/80 text-red-100 px-4 py-2 font-mono text-[10px] rounded shadow-[0_0_15px_rgba(220,38,38,0.3)] animate-pulse">
+          <div className="flex items-center gap-2 font-bold">
+            <span className="inline-block w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+            <span>DRAG ON MAP TO CREATE SELECTION BOX</span>
+          </div>
+        </div>
+      )}
       {title && (
         <div className="absolute top-3 right-3 z-[400] bg-black/80 border border-primary/50 text-white shadow-glow px-4 py-2 font-mono text-xs font-bold pointer-events-none uppercase tracking-widest flex flex-col items-end gap-1">
           <span className="text-primary">{title}</span>
