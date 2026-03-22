@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+@config "../tailwind.config.ts";
+
+/* EcoWatch — Environmental Monitoring Platform (Tactical Edition) */
+
+@layer base {
+  :root {
+    /* Palantir / Tactical Slate palette */
+    --background: 222 47% 5%;
+    /* Void dark blue/slate */
+    --foreground: 210 40% 98%;
+    /* Off-white */
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Cyan/Teal tech primary */
+    --primary: 188 86% 53%;
+    /* Cyan */
+    --primary-foreground: 222 47% 5%;
+    --primary-glow: 188 86% 53%;
+
+    /* Dark slate secondary */
+    --secondary: 217 32% 14%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 32% 14%;
+    --muted-foreground: 215 20.2% 55.1%;
+
+    /* Amber / Alert */
+    --accent: 38 92% 50%;
+    --accent-foreground: 222 47% 5%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 32% 20%;
+    --input: 217 32% 14%;
+    --ring: 188 86% 53%;
+    --radius: 0rem;
+    /* SHARP EDGES */
+
+    /* Custom tokens */
+    --forest: 130 55% 35%;
+    --forest-light: 130 45% 48%;
+    --earth: 35 60% 40%;
+    --danger: 0 84% 60%;
+    --ice-blue: 188 86% 53%;
+    --ndvi-high: 130 65% 40%;
+    --ndvi-low: 38 92% 50%;
+
+    /* Gradients */
+    --gradient-hero: radial-gradient(circle at center, hsl(222 47% 10%) 0%, hsl(222 47% 5%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(217 32% 15%), hsl(222 47% 8%));
+    --gradient-green: linear-gradient(135deg, hsl(188 86% 53%), hsl(188 86% 35%));
+    --gradient-danger: linear-gradient(135deg, hsl(0 84% 60%), hsl(0 84% 40%));
+
+    /* Shadows */
+    --shadow-glow: 0 0 15px hsl(188 86% 53% / 0.4);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.7);
+    --shadow-danger: 0 0 15px hsl(0 84% 60% / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    /* Grid background effect */
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* Target specific data elements with Mono font */
+  .font-mono,
+  .data-value,
+  code {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .text-forest {
+    color: hsl(var(--forest));
+  }
+
+  .text-danger {
+    color: hsl(var(--danger));
+  }
+
+  .text-ice {
+    color: hsl(var(--ice-blue));
+  }
+
+  .bg-forest {
+    background: hsl(var(--forest));
+  }
+
+  .bg-gradient-green {
+    background: var(--gradient-green);
+  }
+
+  .bg-gradient-danger {
+    background: var(--gradient-danger);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-danger {
+    box-shadow: var(--shadow-danger);
+  }
+
+  .map-container {
+    height: 100%;
+    width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .stat-pulse {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .leaflet-container {
+    background: #000 !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+}
+
+/* =============================================
+   Leaflet Draw – High-Visibility Override
+   Makes the drawing guides bright red & visible
+   against dark satellite imagery.
+   ============================================= */
+
+/* The dashed guide lines while dragging */
+.leaflet-draw-guide-dash {
+  background-color: #ef4444 !important;
+  width: 3px !important;
+  height: 3px !important;
+  opacity: 1 !important;
+}
+
+/* The rectangle outline while drawing */
+.leaflet-draw-section .leaflet-interactive,
+.leaflet-pane .leaflet-interactive[stroke="true"] {
+  stroke: #ef4444 !important;
+  stroke-width: 3 !important;
+  stroke-opacity: 1 !important;
+  fill: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* Draw toolbar icon container */
+.leaflet-draw-toolbar a {
+  background-color: #111827 !important;
+  border: 1px solid #374151 !important;
+}
+
+.leaflet-draw-toolbar a:hover {
+  background-color: #1f2937 !important;
+  border-color: #ef4444 !important;
+}
+
+/* Draw action bar labels */
+.leaflet-draw-actions a {
+  background-color: #111827 !important;
+  color: #ef4444 !important;
+  border: 1px solid #ef4444 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+}
+
+/* Tooltip while drawing */
+.leaflet-draw-tooltip {
+  background-color: #111827 !important;
+  border: 1px solid #ef4444 !important;
+  color: #f9fafb !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+  padding: 4px 8px !important;
+  border-radius: 0 !important;
+}
+
+.leaflet-draw-tooltip-subtext {
+  color: #9ca3af !important;
+}
+
+.leaflet-draw-tooltip:before {
+  border-right-color: #ef4444 !important;
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px hsl(var(--primary) / 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes float-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float-up {
+  animation: float-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
